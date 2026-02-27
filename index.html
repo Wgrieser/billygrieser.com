@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>William Grieser — Finance, Networks, Music</title>
@@ -16,7 +17,7 @@
   --text: #8b92a8;
   --light: #c4c9d8;
   --white: #e8ecf4;
-  --amber: #d4944c;
+  --amber:#e07830;
   --amber-dim: rgba(212,148,76,0.08);
   --amber-glow: rgba(212,148,76,0.15);
   --teal: #4a9e8e;
@@ -94,47 +95,48 @@ nav {
 
 /* ===== HERO ===== */
 .hero {
-  min-height: 100vh;
+  min-height: 40vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 80px;
+  padding-top: 10px;
   position: relative;
 }
 .hero-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  gap: 12px;
   align-items: center;
 }
 .hero-text h1 {
   font-family: 'Fraunces', serif;
-  font-size: 52px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 300;
   color: var(--white);
-  letter-spacing: -2px;
+  letter-spacing: -1px;
   line-height: 1.1;
-  margin-bottom: 24px;
+  margin-bottom: 4px;
 }
 .hero-text h1 em {
+  font-size: 18px;
   font-style: italic;
-  font-weight: 300;
+  font-weight: 200;
   color: var(--amber);
 }
 .hero-text .subtitle {
-  font-size: 15px;
+  font-size: 12px;
   color: var(--text);
   line-height: 1.8;
-  max-width: 480px;
-  margin-bottom: 32px;
+  max-width: 460px;
+  margin-bottom: 12px;
 }
-.hero-text .subtitle strong { color: var(--light); font-weight: 600; }
+.hero-text .subtitle strong { color: var(--light); font-weight: 500; }
 .hero-meta {
-  display: flex; gap: 32px;
+  display: flex; gap: 16px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.25px;
   color: var(--muted);
 }
 .hero-meta a {
@@ -147,13 +149,13 @@ nav {
 /* Hero right — ambient visual */
 .hero-visual {
   position: relative;
-  height: 420px;
+  height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .hero-orb {
-  width: 320px; height: 320px;
+  width: 320px; height: 300px;
   border-radius: 50%;
   background: radial-gradient(ellipse at 30% 30%, var(--amber-glow), transparent 60%),
               radial-gradient(ellipse at 70% 70%, rgba(74,158,142,0.08), transparent 50%);
@@ -168,43 +170,45 @@ nav {
 .hero-equation {
   position: absolute;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--muted);
-  opacity: 0.4;
+  font-size: 12px;
+  color: var(--amber);
+  opacity: 0.7;
   white-space: nowrap;
+  text-shadow: 0 0 20px rgba(224,120,48,0.15);
 }
-.eq-1 { top: 60px; left: 20px; animation: eq-fade 8s ease-in-out infinite; }
-.eq-2 { top: 180px; right: 10px; animation: eq-fade 8s ease-in-out 2s infinite; }
-.eq-3 { bottom: 80px; left: 40px; animation: eq-fade 8s ease-in-out 4s infinite; }
-.eq-4 { bottom: 160px; right: 30px; animation: eq-fade 8s ease-in-out 6s infinite; }
+.eq-1 { top: 80px; left: 40px; animation: eq-fade 4s ease-in-out infinite; }
+.eq-2 { top: 110px; right: 40px; animation: eq-fade 4s ease-in-out 3s infinite; }
+.eq-3 { bottom: 110px; right: 10px; animation: eq-fade 4s ease-in-out 6s infinite; }
+.eq-4 { bottom: 75px; left: 168px; animation: eq-fade 4s ease-in-out 6s infinite; }
+.eq-5 { bottom: 40px; left: 150px; animation: eq-fade 1s ease-in-out 1s infinite; }
 @keyframes eq-fade {
-  0%, 100% { opacity: 0.15; } 50% { opacity: 0.5; }
+  0%, 100% { opacity: 0.1; } 50% { opacity: 0.85; }
 }
 
 /* ===== SECTION HEADERS ===== */
 .section-header {
-  padding-top: 120px;
-  margin-bottom: 48px;
+  padding-top: 36px;
+  margin-bottom: 12px;
 }
 .section-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 3px;
   color: var(--amber);
-  margin-bottom: 12px;
+  margin-bottom: 4px;
 }
 .section-title {
   font-family: 'Fraunces', serif;
-  font-size: 36px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 300;
   color: var(--white);
-  letter-spacing: -1.5px;
+  letter-spacing: -1.25px;
   line-height: 1.15;
 }
 .section-title em {
   font-style: italic;
-  font-weight: 300;
+  font-weight: 200;
   color: var(--amber);
 }
 
@@ -212,42 +216,42 @@ nav {
 .research-list { display: flex; flex-direction: column; gap: 2px; }
 .research-card {
   display: grid;
-  grid-template-columns: 72px 1fr auto;
-  gap: 20px;
+  grid-template-columns: 80px 1fr auto;
+  gap: 0px;
   align-items: start;
-  padding: 24px 0;
+  padding: 12px 0;
   border-bottom: 1px solid var(--border);
   transition: background 0.2s;
   text-decoration: none;
   color: inherit;
 }
 .research-card:first-child { border-top: 1px solid var(--border); }
-.research-card:hover { background: var(--amber-dim); margin: 0 -16px; padding: 24px 16px; }
+.research-card:hover { background: var(--amber-dim); margin: 0 -16px; padding: 16px 16px; }
 .rc-year {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--muted);
+  font-size: 12px;
+  color: var(--amber);
   padding-top: 4px;
 }
 .rc-title {
   font-family: 'Fraunces', serif;
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 250;
   color: var(--white);
   line-height: 1.4;
-  margin-bottom: 6px;
+  margin-bottom: 0px;
   letter-spacing: -0.3px;
 }
 .rc-authors {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text);
-  margin-bottom: 4px;
+  margin-bottom: 0px;
 }
 .rc-authors strong { color: var(--amber); font-weight: 600; }
 .rc-journal {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
-  color: var(--muted);
+  color: var(--amber);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -268,15 +272,15 @@ nav {
 
 /* ===== MUSIC SECTION ===== */
 .music-intro {
-  font-size: 15px;
-  color: var(--text);
+  font-size: 12px;
+  color: var(--white);
   max-width: 600px;
-  margin-bottom: 48px;
+  margin-bottom: 20px;
   line-height: 1.8;
 }
 .music-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 20px;
 }
 .song-card {
@@ -301,14 +305,16 @@ nav {
   position: relative;
   overflow: hidden;
 }
-.song-art-1 { background: linear-gradient(135deg, #1a1520, #0d1a1a); }
-.song-art-2 { background: linear-gradient(135deg, #1a1810, #0d0f1a); }
-.song-art-3 { background: linear-gradient(135deg, #120d1a, #1a1018); }
+.song-art-1 { background: linear-gradient(135deg, rgba(26,21,32,0.7), rgba(13,26,26,0.7)), url('https://img.youtube.com/vi/76wo0doxrl0/hqdefault.jpg') center/cover; }
+.song-art-2 { background: linear-gradient(135deg, rgba(26,21,32,0.7), rgba(13,26,26,0.7)), url('https://img.youtube.com/vi/eCiEfBc38-g/hqdefault.jpg') center/cover; }
+.song-art-3 { background: linear-gradient(135deg, rgba(26,21,32,0.7), rgba(13,26,26,0.7)), url('https://img.youtube.com/vi/gpL8PPmz1Tg/hqdefault.jpg') center/cover; }
+.song-art-4 { background: linear-gradient(135deg, rgba(26,21,32,0.7), rgba(13,26,26,0.7)), url('https://img.youtube.com/vi/Pto0paliRQg/hqdefault.jpg') center/cover; }
+.song-art-5 { background: linear-gradient(135deg, rgba(26,21,32,0.7), rgba(13,26,26,0.7)), url('https://img.youtube.com/vi/NIKsCTW7H7c/hqdefault.jpg') center/cover; }
 
 .song-art .art-text {
   font-family: 'Fraunces', serif;
-  font-size: 48px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 500;
   color: rgba(255,255,255,0.04);
   position: absolute;
   letter-spacing: -3px;
@@ -332,9 +338,9 @@ nav {
 .song-info { padding: 16px 20px; }
 .song-title {
   font-family: 'Fraunces', serif;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--white);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--amber);
   margin-bottom: 4px;
 }
 .song-desc {
@@ -347,40 +353,40 @@ nav {
 .about-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  gap: 60px;
+  gap: 20px;
   align-items: start;
 }
 .about-text {
-  font-size: 15px;
+  font-size: 10px;
   line-height: 1.9;
   color: var(--text);
 }
-.about-text p { margin-bottom: 20px; }
+.about-text p { margin-bottom: 12px; }
 .about-text strong { color: var(--light); }
 .about-sidebar {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 28px;
+  padding: 12px;
 }
 .about-sidebar h4 {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 10px;
   text-transform: uppercase;
   letter-spacing: 2px;
   color: var(--amber);
-  margin-bottom: 16px;
+  margin-bottom: 4px;
 }
 .about-sidebar .info-row {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
+  padding: 6px 0;
   border-bottom: 1px solid var(--border);
   font-size: 12px;
 }
 .about-sidebar .info-row:last-child { border: none; }
 .info-label { color: var(--muted); }
-.info-val { color: var(--white); font-weight: 600; }
+.info-val { color: var(--white); font-weight: 200; }
 
 /* ===== TEACHING ===== */
 .teaching-grid {
@@ -392,26 +398,26 @@ nav {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 28px;
+  padding: 12px;
   transition: border-color 0.2s;
 }
 .teach-card:hover { border-color: var(--border-hover); }
 .teach-card h3 {
   font-family: 'Fraunces', serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 300;
   color: var(--white);
   margin-bottom: 8px;
 }
 .teach-card p {
-  font-size: 13px;
+  font-size: 10px;
   color: var(--text);
   line-height: 1.7;
 }
 .teach-tag {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px;
-  color: var(--teal);
+  color: var(--amber);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   margin-bottom: 10px;
@@ -422,9 +428,9 @@ nav {
 .blog-list { display: flex; flex-direction: column; gap: 0; }
 .blog-item {
   display: flex;
-  gap: 20px;
+  gap: 10px;
   align-items: baseline;
-  padding: 20px 0;
+  padding: 0px 0;
   border-bottom: 1px solid var(--border);
   text-decoration: none;
   color: inherit;
@@ -436,19 +442,19 @@ nav {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   color: var(--muted);
-  min-width: 80px;
+  min-width: 60px;
 }
 .blog-title {
   font-family: 'Fraunces', serif;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 200;
   color: var(--white);
 }
 .blog-excerpt {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text);
   margin-left: auto;
-  max-width: 300px;
+  max-width: 500px;
   text-align: right;
 }
 
@@ -513,14 +519,14 @@ footer {
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="nav-name">W<span>.</span> Grieser</a>
+    <a href="#" class="nav-name">William<span></span> Grieser</a>
     <div class="nav-links">
       <a href="#research">Research</a>
       <a href="#music">Music</a>
       <a href="#about">About</a>
       <a href="#teaching">Teaching</a>
       <a href="#writing">Writing</a>
-      <a href="#">CV</a>
+      <a href="WilliamGrieser_CV.pdf" target="_blank">CV</a>
     </div>
   </div>
 </nav>
@@ -529,26 +535,24 @@ footer {
 <section class="hero section" id="home">
   <div class="hero-grid">
     <div class="hero-text">
-      <h1>William Grieser<br><em>networks, risk &amp; the spaces between</em></h1>
+      <h1>William Grieser<br><em>Associate Professor of Finance</em></h1>
       <p class="subtitle">
-        Associate Professor of Finance at <strong>Oklahoma State University</strong>. 
-        I study how firms are connected — through geography, information, and the 
-        spillover effects that standard models miss. I also write songs, 
-        mostly sad ones.
+        Finance professor. Network economist. Songwriter. I study how firms' decisions ripple through production and geographic networks, and I write rap songs about Ben Bernanke. My music page is probably more intersting than my research page!
       </p>
       <div class="hero-meta">
-        <a href="mailto:billy.grieser@okstate.edu">email</a>
-        <a href="https://scholar.google.com" target="_blank">google scholar</a>
-        <a href="https://papers.ssrn.com" target="_blank">ssrn</a>
-        <a href="#" target="_blank">github</a>
+        <a href="mailto:william.grieser@okstate.edu">email</a>
+        <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=TTW153AAAAAJ&gmla=AF9nlQuMfhs_xUeQ95v8boDOMi_3BIRPHTb5ziy290Htnwu5Mc7NoAIyq-OHtqt4ft6-o-ofiIHneMt747P-3mpuo2L7-r1juFxybJKK2qgtSzMJFv5Z" target="_blank">google scholar</a>
+        <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=2438422" target="_blank">ssrn</a>
+        <a href="https://github.com/Wgrieser" target="_blank">github</a>
       </div>
     </div>
     <div class="hero-visual">
       <div class="hero-orb"></div>
-      <span class="hero-equation eq-1">L(t) = ∫₀ᵗ E(s) · W(s) ds</span>
-      <span class="hero-equation eq-2">y = Xβ + ρWy + ε</span>
-      <span class="hero-equation eq-3">Disag_i = σ_w(s_ij)</span>
-      <span class="hero-equation eq-4">∂V/∂K = q(θ)</span>
+      <span class="hero-equation eq-1">\(y=(I-\rho W)^{-1}X\beta \)</span>
+      <span class="hero-equation eq-2">\(∂V/∂K = q(θ)\)</span>
+      <span class="hero-equation eq-3">\( L = \iint \left[ B(a,t) + C(a,t) \right] \cdot \left[ D(a,t) + I\big( R(a,t) \big) \right] \, da \, dt \)</span>
+      <span class="hero-equation eq-4">\(\Rightarrow\)</span>
+      <span class="hero-equation eq-5">\(L = \int e(t)\, dt \)</span>
     </div>
   </div>
 </section>
@@ -561,6 +565,26 @@ footer {
   </div>
 
   <div class="research-list">
+    <a class="research-card" href="https://onlinelibrary.wiley.com/doi/10.1111/jbfa.70053">
+      <div class="rc-year">2026</div>
+      <div>
+        <div class="rc-title">Decomposing the Spillover Effects of Financial Restatements on Corporate Investment</div>
+        <div class="rc-authors">with Jan Ditzen, Patrick Hopkins, and Stephen Lusch</div>
+        <div class="rc-journal">Journal of Business Finance & Accounting · Forthcoming</div>
+      </div>
+      <div class="rc-tag pub">JBFA</div>
+    </a>
+
+    <a class="research-card" href="https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/epidemiology-of-financial-constraints-and-corporate-investment/88AC9FC6B96EBF4DBA88638B406EF03F">
+      <div class="rc-year">2026</div>
+      <div>
+        <div class="rc-title">The Epidemiology of Financial Constraints and Corporate Investment</div>
+        <div class="rc-authors">with Ioannis Spyridopoulos and Morad Zekhnini</div>
+        <div class="rc-journal">Journal of Financial & Quantitative Analysis · 61(1), 281–314</div>
+      </div>
+      <div class="rc-tag pub">JFQA</div>
+    </a>
+
     <a class="research-card" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3385841">
       <div class="rc-year">2025</div>
       <div>
@@ -571,14 +595,14 @@ footer {
       <div class="rc-tag rr">R&R</div>
     </a>
 
-    <a class="research-card" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3070375">
+    <a class="research-card" href="https://www.cambridge.org/core/journals/journal-of-financial-and-quantitative-analysis/article/product-similarity-benchmarking-and-corporate-fraud/7F99E9D9DBFCEC41136466A46C142412">
       <div class="rc-year">2025</div>
       <div>
-        <div class="rc-title">Does Economic Comparability Discipline Financial Reporting?</div>
+        <div class="rc-title">Product Similarity, Benchmarking, and Corporate Fraud</div>
         <div class="rc-authors">with Audra Boone, Rachel Li, and Parth Venkat</div>
-        <div class="rc-journal">R&R at Journal of Financial & Quantitative Analysis</div>
+        <div class="rc-journal">Journal of Financial & Quantitative Analysis · 60(7), 3195–3227</div>
       </div>
-      <div class="rc-tag rr">R&R</div>
+      <div class="rc-tag pub">JFQA</div>
     </a>
 
     <a class="research-card" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3659634">
@@ -651,50 +675,74 @@ footer {
   </div>
 
   <p class="music-intro">
-    Country songs written in Stillwater, Oklahoma. Mostly about longing, 
-    leaving, and the distances between people. Recorded on a laptop 
-    in a single-wide after midnight.
+    Songs I've written from my trailer to explain economic concepts, make fun of finance and research topics, or just entertain myself. They're all on Spotify and YouTube — click below to listen!
   </p>
 
   <div class="music-grid">
-    <div class="song-card">
+    <a class="song-card" href="https://youtu.be/76wo0doxrl0" target="_blank" style="text-decoration:none;color:inherit">
       <div class="song-art song-art-1">
-        <span class="art-text">I</span>
+        <span class="art-text">$$$</span>
         <div class="play-icon">
           <svg width="18" height="18" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
         </div>
       </div>
       <div class="song-info">
-        <div class="song-title">Placeholder Song Title</div>
-        <div class="song-desc">Add your songs here — embedded audio, lyrics, the story behind each one.</div>
+        <div class="song-title">Dang It Feels Good to Be a Bankster</div>
+        <div class="song-desc">The financial crisis, from the perspective of those who made it happen.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="song-card">
+    <a class="song-card" href="https://youtu.be/eCiEfBc38-g?si=YJcnJGUbeBnOxINh" target="_blank" style="text-decoration:none;color:inherit">
       <div class="song-art song-art-2">
-        <span class="art-text">II</span>
+        <span class="art-text">FIN</span>
         <div class="play-icon">
           <svg width="18" height="18" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
         </div>
       </div>
       <div class="song-info">
-        <div class="song-title">Placeholder Song Title</div>
-        <div class="song-desc">Each card can expand to show lyrics, recording notes, and an audio player.</div>
+        <div class="song-title">Welcome Back</div>
+        <div class="song-desc">A rap welcoming students back from Covid — with an overview of the curriculum and economic concepts baked in.</div>
       </div>
-    </div>
+    </a>
 
-    <div class="song-card">
+    <a class="song-card" href="https://youtu.be/gpL8PPmz1Tg?si=oVs4F4c9sSdN4sOY" target="_blank" style="text-decoration:none;color:inherit">
       <div class="song-art song-art-3">
-        <span class="art-text">III</span>
+        <span class="art-text">W</span>
         <div class="play-icon">
           <svg width="18" height="18" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
         </div>
       </div>
       <div class="song-info">
-        <div class="song-title">Placeholder Song Title</div>
-        <div class="song-desc">We can add waveform visualizations, album art generation, whatever you want.</div>
+        <div class="song-title">Winsorizing</div>
+        <div class="song-desc">A song about everyone's favorite econometric procedure. Trim those tails.</div>
       </div>
-    </div>
+    </a>
+
+    <a class="song-card" href="https://www.youtube.com/watch?v=Pto0paliRQg" target="_blank" style="text-decoration:none;color:inherit">
+      <div class="song-art song-art-4">
+        <span class="art-text">%</span>
+        <div class="play-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+        </div>
+      </div>
+      <div class="song-info">
+        <div class="song-title">Tariff Song</div>
+        <div class="song-desc">Trade policy set to music. Because sometimes the best way to explain tariffs is to sing about them.</div>
+      </div>
+    </a>
+
+    <a class="song-card" href="https://youtu.be/NIKsCTW7H7c?si=DXu8EOJU8RsGBAkI" target="_blank" style="text-decoration:none;color:inherit">
+      <div class="song-art song-art-5">
+        <span class="art-text">★</span>
+        <div class="play-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+        </div>
+      </div>
+      <div class="song-info">
+        <div class="song-title">Dallas Cowboys Rap</div>
+        <div class="song-desc">Not everything has to be about finance.</div>
+      </div>
+    </a>
   </div>
 </section>
 
@@ -702,28 +750,41 @@ footer {
 <section class="section" id="about">
   <div class="section-header">
     <div class="section-label">03 — About</div>
-    <div class="section-title">The <em>short version</em></div>
+    <div class="section-title">The <em>less</em> short version</div>
   </div>
 
   <div class="about-grid">
     <div class="about-text">
       <p>
-        I'm a finance professor who thinks most empirical work in the field 
-        doesn't take networks seriously enough. My research uses <strong>spatial 
-        econometrics</strong> to study how firms are connected — through supply chains, 
-        geography, shared institutional investors — and how those connections 
-        shape financial policies, investment decisions, and information flow.
+        I'm a finance professor who studies how firms' decisions ripple through 
+        <strong>production networks</strong> and <strong>geographic clusters</strong>. 
+        Most empirical work in corporate finance treats firms as independent observations, as though they are <em>Robinson Crusoe</em> Firms operating on an island. But firms are connected to each other in complex webs of supply chains, industry relationships, and geographic proximity. My research shows what you likely miss when you ignore the connections. 
+        Network effects alter the economic magnitudes of well-studied relationships 
+        dramatically, as one would expect from decades of game theory and industrial organization research. The econometrics required to identify these effects properly 
+        is not as hard as one might think, and they offer far more than better parameter estimates. Rather, they offer an entirely new class of measureable phenomena.
       </p>
       <p>
-        Before Oklahoma State, I was at <strong>TCU</strong> and <strong>USC</strong>. 
+        I specialize in <strong>network analysis, spatial econometrics</strong>, <strong>financial 
+        constraints</strong>, and <strong>corporate investment</strong> I focus on 
+        methods that glean new insights into old questions, empirical approaches 
+        that capture indirect links, spillover channels, and propagation effects 
+        that standard models miss entirely.
+      </p>
+      <p>
         I teach Financial Markets & Institutions and empirical research methods. 
-        I believe in teaching through <strong>games and experiential learning</strong> 
-        rather than slides, because finance is a contact sport.
+        My classroom runs on <strong>games, simulations, and experiential 
+        learning</strong> — not slides. I've written rap songs to teach 
+        <a href="https://youtu.be/gpL8PPmz1Tg?si=oVs4F4c9sSdN4sOY" target="_blank" style="color:var(--amber)">econometrics</a>, 
+        explain <a href="https://www.youtube.com/watch?v=Pto0paliRQg" target="_blank" style="color:var(--amber)">tariffs</a>, 
+        and <a href="https://youtu.be/eCiEfBc38-g?si=YJcnJGUbeBnOxINh" target="_blank" style="color:var(--amber)">welcome students back from Covid</a>. 
+        They work better than you'd think.
       </p>
       <p>
-        Outside of research, I write country music, think about what it means 
-        to formalize love mathematically, and argue with LLMs about 
-        identification strategies in working papers.
+        Before Oklahoma State, I was at <strong>Tulane, TCU,</strong> and <strong>USC</strong>. 
+        Outside of research, I write music spanning several genres from my trailer in Stillwater, 
+        I'm working on a book that formalizes love as an integral of emotional energy dedicated over time, and I spend 
+        more time than is probably healthy arguing with AI about identification 
+        strategies in working papers.
       </p>
     </div>
     <div class="about-sidebar">
@@ -742,11 +803,11 @@ footer {
       </div>
       <div class="info-row">
         <span class="info-label">Methods</span>
-        <span class="info-val">Spatial Econometrics</span>
+        <span class="info-val">network econometrics</span>
       </div>
       <div class="info-row">
         <span class="info-label">Side quest</span>
-        <span class="info-val">Country music</span>
+        <span class="info-val">Songwriter</span>
       </div>
     </div>
   </div>
@@ -799,7 +860,7 @@ footer {
 <section class="section" id="writing">
   <div class="section-header">
     <div class="section-label">05 — Writing</div>
-    <div class="section-title">Notes &amp; <em>commentary</em></div>
+    <div class="section-title">Random Research &amp; <em>never to be published</em></div>
   </div>
 
   <div class="blog-list">
