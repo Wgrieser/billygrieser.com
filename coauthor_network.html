@@ -107,7 +107,7 @@ const sim=d3.forceSimulation(nodes)
   .force("y",d3.forceY(H/2).strength(0.04));
 const billy=nodes.find(n=>n.id==="Billy");billy.fx=W/2;billy.fy=H/2;
 const link=g.selectAll(".link").data(edges).join("path").attr("class","link").attr("fill","none").attr("stroke",d=>d.color).attr("stroke-width",2.5).attr("stroke-opacity",0.3).style("cursor","pointer");
-const nR=32,bR=40;
+const nR=42,bR=60;
 const nG=g.selectAll(".node").data(nodes).join("g").attr("class","node").style("cursor","pointer")
   .call(d3.drag().on("start",(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y}).on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y}).on("end",(e,d)=>{if(!e.active)sim.alphaTarget(0);if(!d.center){d.fx=null;d.fy=null}}));
 nG.append("circle").attr("r",d=>d.center?bR:nR).attr("fill",d=>d.center?"rgba(224,120,48,0.15)":"rgba(138,146,168,0.08)").attr("stroke",d=>d.center?"#e07830":"#3a4060").attr("stroke-width",d=>d.center?2.5:1.5);
