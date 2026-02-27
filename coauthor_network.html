@@ -16,7 +16,10 @@ body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;backg
 .header h1{font-family:'Fraunces',serif;font-size:28px;font-weight:800;color:var(--white);letter-spacing:-1px;pointer-events:auto}
 .header h1 em{font-style:italic;font-weight:400;color:var(--amber)}
 .header p{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5}
-.legend{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:50;display:flex;flex-wrap:wrap;gap:14px;padding:10px 20px;background:rgba(19,22,31,0.92);border:1px solid var(--border);border-radius:8px;backdrop-filter:blur(12px)}
+.legend{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:50;display:flex;flex-wrap:wrap;gap:14px;padding:10px 20px;background:rgba(19,22,31,0.92);border:1px solid var(--border);border-radius:8px;backdrop-filter:blur(12px);
+  max-width: 600px; 
+  justify-content: center;
+}
 .leg-item{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.8px;color:var(--text);text-transform:uppercase}
 .leg-line{width:20px;height:3px;border-radius:2px;flex-shrink:0}
 svg{display:block;width:100vw;height:100vh;cursor:grab}
@@ -52,7 +55,7 @@ const A={
 "Eshwar":{f:"Eshwar",l:"Venugopal",inst:"University of Alabama",url:"https://eshwarv.com",q:"The nicest man on the planet, and he knows the literature better than Google Scholar."},
 "Maryam":{f:"Maryam",l:"Fathollahi",inst:"Oklahoma State University",url:"https://www.maryamfathollahi.com",q:"You think you\u2019re careful at research. Then you meet Maryam, and you realize you\u2019ve been coloring outside the lines your whole career."},
 "Ioannis":{f:"Ioannis",l:"Spyridopoulos",inst:"University of Bristol",url:"https://ioannisspy.github.io",q:"The hardest worker I\u2019ve ever met. And sometimes, it\u2019s even useful."},
-"Audra":{f:"Audra",l:"Boone",inst:"Texas Christian University",url:"https://sites.google.com/site/audralboone/",q:"Detail-oriented, encyclopedic on institutional knowledge, and the nicest person anyone has ever met. Yes, I said that about Eshwar too. They\u2019re both right."},
+"Audra":{f:"Audra",l:"Boone",inst:"Colorado State University",url:"https://sites.google.com/site/audralboone/",q:"Detail-oriented, encyclopedic on institutional knowledge, and the nicest person anyone has ever met. Yes, I said that about Eshwar too. They\u2019re both right."},
 "Rachel":{f:"Rachel",l:"Li",inst:"University of Alabama",url:"https://sites.google.com/view/rachelli/home",q:"She\u2019ll keep you in line one minute and bring the joy to the lunch table the next."},
 "Parth":{f:"Parth",l:"Venkat",inst:"University of Virginia",url:"https://parthvenkat.com",q:"Dos Equis has it wrong. Parth is the most interesting man in the world."},
 "Zack":{f:"Zack",l:"Liu",inst:"National University of Singapore",url:"https://www.zackliu.info",q:"A careful thinker with a calm demeanor. I was invited to his wedding \u2014 that\u2019s how you know it\u2019s real."},
@@ -108,7 +111,7 @@ const sim=d3.forceSimulation(nodes)
   .force("y",d3.forceY(H/2).strength(0.04));
 const billy=nodes.find(n=>n.id==="Billy");billy.fx=W/2;billy.fy=H/2;
 const link=g.selectAll(".link").data(edges).join("path").attr("class","link").attr("fill","none").attr("stroke",d=>d.color).attr("stroke-width",2.5).attr("stroke-opacity",0.3).style("cursor","pointer");
-const nR=36,bR=48;
+const nR=38,bR=42;
 const nG=g.selectAll(".node").data(nodes).join("g").attr("class","node").style("cursor","pointer")
   .call(d3.drag().on("start",(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y}).on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y}).on("end",(e,d)=>{if(!e.active)sim.alphaTarget(0);if(!d.center){d.fx=null;d.fy=null}}));
 
