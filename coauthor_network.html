@@ -40,7 +40,7 @@ svg:active{cursor:grabbing}
 </style>
 </head>
 <body>
-<div class="header"><h1>Coauthor <em>Network</em></h1><p>Each edge is a paper. Hover nodes for details, hover edges for papers. Drag to rearrange. Click "site" to visit.</p></div>
+<div class="header"><h1>Coauthor <em>Network</em></h1><p>Each edge is a paper. Hover nodes for details, hover edges for papers. Drag to rearrange. Click "website" to visit.</p></div>
 <div class="legend" id="legend"></div>
 <svg id="graph"></svg>
 <div class="tooltip" id="tooltip"></div>
@@ -118,7 +118,7 @@ const nG=g.selectAll(".node").data(nodes).join("g").attr("class","node").style("
 // Node circles
 nG.append("circle").attr("r",d=>d.center?bR:nR).attr("fill",d=>d.center?"rgba(224,120,48,0.15)":"rgba(138,146,168,0.08)").attr("stroke",d=>d.center?"#e07830":"#3a4060").attr("stroke-width",d=>d.center?2.5:1.5);
 
-// === COAUTHOR NODES: first name, last name, "site" all inside ===
+// === COAUTHOR NODES: first name, last name, "website" all inside ===
 nG.filter(d=>!d.center).append("text").text(d=>d.first).attr("text-anchor","middle").attr("dy","-0.6em").attr("fill","#e8ecf4").attr("font-family","'Source Serif 4',serif").attr("font-size","10px").attr("font-weight","400");
 nG.filter(d=>!d.center).append("text").text(d=>d.last).attr("text-anchor","middle").attr("dy","0.5em").attr("fill","#e8ecf4").attr("font-family","'Source Serif 4',serif").attr("font-size","10px").attr("font-weight","400");
 nG.filter(d=>!d.center).append("text").text("website").attr("text-anchor","middle").attr("dy","2em").attr("fill","#e07830").attr("font-family","'JetBrains Mono',monospace").attr("font-size","9px").attr("font-weight","400").attr("text-decoration","underline").style("cursor","pointer").on("click",(e,d)=>{e.stopPropagation();window.open(d.url,"_blank")});
