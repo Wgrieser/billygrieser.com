@@ -499,18 +499,140 @@ footer {
   margin: 80px 0;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== DESKTOP EQUATION POSITIONING ===== */
+@media (min-width: 769px) {
+  :root { --eq-x: 160px; --eq-y: 55px; }
+  .hero-visual .eq-1 { top: calc(40px  + var(--eq-y)) !important; left: calc(40px  + var(--eq-x)) !important; }
+  .hero-visual .eq-2 { top: calc(70px  + var(--eq-y)) !important; left: calc(180px + var(--eq-x)) !important; }
+  .hero-visual .eq-3 { top: calc(120px + var(--eq-y)) !important; left: calc(10px  + var(--eq-x)) !important; }
+  .hero-visual .eq-4 { top: calc(140px + var(--eq-y)) !important; left: calc(168px + var(--eq-x)) !important; }
+  .hero-visual .eq-5 { top: calc(160px + var(--eq-y)) !important; left: calc(155px + var(--eq-x)) !important; }
+}
+
+/* ===== RESPONSIVE: TABLET LANDSCAPE / SMALL LAPTOP (769–1024px) ===== */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .section { padding: 0 24px; }
+  .hero-text h1 { font-size: 22px; }
+  .hero-text h1 em { font-size: 16px; }
+  .hero-visual { height: 260px; }
+  .hero-orb { width: 240px; height: 240px; }
+  .music-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+  .song-art { height: 150px; }
+  .research-card { grid-template-columns: 60px 1fr auto; }
+  .blog-excerpt { max-width: 300px; font-size: 11px; }
+}
+
+/* ===== RESPONSIVE: TABLET PORTRAIT (481–768px) ===== */
 @media (max-width: 768px) {
-  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-  .hero-text h1 { font-size: 36px; }
+  body { padding-top: 56px; }
+  .section { padding: 0 20px; }
+
+  /* Nav: shrink gaps and font, keep horizontal */
+  .nav-inner { padding: 10px 16px; }
+  .nav-links { gap: 12px; flex-wrap: wrap; }
+  .nav-links a { font-size: 8px; letter-spacing: 1px; }
+
+  /* Hero: stack to single column */
+  .hero { min-height: auto; padding-top: 20px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+  .hero-text h1 { font-size: 28px; }
+  .hero-text h1 em { font-size: 18px; }
+  .hero-text .subtitle { font-size: 12px; max-width: 100%; }
   .hero-visual { height: 200px; }
-  .about-grid { grid-template-columns: 1fr; }
-  .teaching-grid { grid-template-columns: 1fr; }
-  .research-card { grid-template-columns: 1fr; gap: 8px; }
+  .hero-orb { width: 200px; height: 200px; }
+  .hero-equation { font-size: 10px; }
+
+  /* Research: drop tag column */
+  .research-card { grid-template-columns: 50px 1fr; gap: 8px; }
   .rc-tag { display: none; }
-  .nav-links { gap: 16px; }
-  .nav-links a { font-size: 8px; letter-spacing: 1.5px; }
+  .rc-title { font-size: 13px; }
+
+  /* Music: 2 columns */
+  .music-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .song-art { height: 140px; }
+  .song-info { padding: 12px 14px; }
+  .song-title { font-size: 12px; }
+  .song-desc { font-size: 11px; }
+
+  /* About: stack sidebar below */
+  .about-grid { grid-template-columns: 1fr; gap: 24px; }
+  .about-text { font-size: 11px; }
+
+  /* Teaching: single column */
+  .teaching-grid { grid-template-columns: 1fr; gap: 14px; }
+
+  /* Blog: hide excerpt */
   .blog-excerpt { display: none; }
+
+  /* Section headers */
+  .section-title { font-size: 22px; }
+
+  /* Footer */
+  .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+  footer { margin-top: 60px; }
+}
+
+/* ===== RESPONSIVE: PHONE (≤480px) ===== */
+@media (max-width: 480px) {
+  body { padding-top: 48px; }
+  .section { padding: 0 16px; }
+
+  /* Nav: tighter, smaller */
+  .nav-inner { padding: 8px 12px; }
+  .nav-name { font-size: 9px; }
+  .nav-links { gap: 8px; }
+  .nav-links a { font-size: 7px; letter-spacing: 1px; }
+
+  /* Hero */
+  .hero { padding-top: 12px; }
+  .hero-grid { gap: 16px; }
+  .hero-text h1 { font-size: 24px; line-height: 1.2; }
+  .hero-text h1 em { font-size: 15px; }
+  .hero-text .subtitle { font-size: 11px; line-height: 1.7; margin-bottom: 10px; }
+  .hero-meta { gap: 10px; font-size: 9px; flex-wrap: wrap; }
+  .hero-visual { height: 160px; }
+  .hero-orb { width: 160px; height: 160px; filter: blur(40px); }
+  .hero-equation { font-size: 8px; }
+  .eq-3 { display: none; } /* hide longest equation on tiny screens */
+
+  /* Research */
+  .research-card { grid-template-columns: 1fr; gap: 4px; padding: 10px 0; }
+  .rc-year { font-size: 10px; }
+  .rc-title { font-size: 13px; }
+  .rc-authors { font-size: 11px; }
+  .rc-journal { font-size: 9px; }
+  .research-card:hover { margin: 0 -8px; padding: 12px 8px; }
+
+  /* Music: single column */
+  .music-grid { grid-template-columns: 1fr; gap: 12px; }
+  .song-art { height: 160px; }
+
+  /* About */
+  .about-text { font-size: 11px; line-height: 1.8; }
+  .about-sidebar { padding: 14px; }
+  .about-sidebar .info-row { font-size: 11px; }
+
+  /* Teaching */
+  .teach-card { padding: 14px; }
+  .teach-card h3 { font-size: 13px; }
+  .teach-card p { font-size: 10px; }
+
+  /* Blog */
+  .blog-item { gap: 8px; padding: 8px 0; }
+  .blog-item:hover { margin: 0 -8px; padding: 12px 8px; }
+  .blog-date { font-size: 9px; min-width: 50px; }
+  .blog-title { font-size: 12px; }
+
+  /* Section headers */
+  .section-header { padding-top: 28px; margin-bottom: 10px; }
+  .section-label { font-size: 9px; letter-spacing: 2px; }
+  .section-title { font-size: 20px; }
+
+  /* Footer */
+  footer { margin-top: 40px; padding: 24px 0; }
+  .footer-left { font-size: 9px; }
+  .footer-links { gap: 16px; }
+  .footer-links a { font-size: 9px; }
 }
 </style>
 </head>
@@ -541,7 +663,7 @@ footer {
         Finance professor. Network economist. Songwriter. I study how firms' decisions ripple through production and geographic networks, and I write rap songs about Ben Bernanke. My music page is probably more intersting than my research page!
       </p>
       <div class="hero-meta">
-        <a href="mailto:william.grieser@okstate.edu">email</a>
+        <a href="/cdn-cgi/l/email-protection#67100e0b0b0e060a4900150e0214021527080c141306130249020312">email</a>
         <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=TTW153AAAAAJ&gmla=AF9nlQuMfhs_xUeQ95v8boDOMi_3BIRPHTb5ziy290Htnwu5Mc7NoAIyq-OHtqt4ft6-o-ofiIHneMt747P-3mpuo2L7-r1juFxybJKK2qgtSzMJFv5Z" target="_blank">google scholar</a>
         <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=2438422" target="_blank">ssrn</a>
         <a href="https://github.com/Wgrieser" target="_blank">github</a>
@@ -888,13 +1010,6 @@ footer {
   <div class="footer-inner">
     <div class="footer-left">© 2026 William Grieser · Stillwater, OK</div>
     <div class="footer-links">
-      <a href="mailto:billy.grieser@okstate.edu">Email</a>
+      <a href="/cdn-cgi/l/email-protection#17757e7b7b6e3970657e7264726557787c646376637239727362">Email</a>
       <a href="#">Scholar</a>
-      <a href="#">SSRN</a>
-      <a href="#">Twitter</a>
-    </div>
-  </div>
-</footer>
-
-</body>
-</html>
+      

@@ -37,7 +37,7 @@ svg:active{cursor:grabbing}
 </style>
 </head>
 <body>
-<div class="header"><h1>Coauthor <em>Network</em></h1><p>Each edge is a paper. Hover nodes for details, hover edges for papers. Drag to rearrange. Click "website" to visit.</p></div>
+<div class="header"><h1>Coauthor <em>Network</em></h1><p>Each edge is a paper. Hover nodes for details, hover edges for papers. Drag to rearrange. Click "site" to visit.</p></div>
 <div class="legend" id="legend"></div>
 <svg id="graph"></svg>
 <div class="tooltip" id="tooltip"></div>
@@ -45,7 +45,7 @@ svg:active{cursor:grabbing}
 <script>
 const TH={"Network Econometrics":"#5a8ef5","Corporate Investment":"#2dd4bf","Corporate Finance":"#e07830","Accounting & Fraud":"#e8637a","LLM Research":"#a855f7","Econometrics":"#4ade80"};
 const A={
-"Billy":{f:"Billy",l:"Grieser",inst:"Oklahoma State University",url:"https://billygrieser.com",q:"",c:true},
+"Billy":{f:"William",l:"Grieser",inst:"Oklahoma State University",url:"https://billygrieser.com",q:"",c:true},
 "Morad":{f:"Morad",l:"Zekhnini",inst:"Michigan State University",url:"https://sites.google.com/view/moradzekhnini/home",q:"The smartest person I\u2019ve ever met, and humble about it. He doesn\u2019t solve differential equations \u2014 he knows the answer, and the math reverse-engineers the truth."},
 "Charlie":{f:"Charles",l:"Hadlock",inst:"University of Pittsburgh",url:"https://www.business.pitt.edu/professors/charles-hadlock/",q:"My dissertation advisor. The brain to win a Nobel Prize, and the humility to let you think you came up with the idea yourself."},
 "Jim":{f:"James",l:"LeSage",inst:"Texas State (Emeritus)",url:"https://scholar.google.com/citations?user=9UI5bRAAAAAJ&hl=en",q:"My mentor, and one of the godfathers of spatial econometrics. If you want to know what\u2019s wrong with your model, see Jim. Except he\u2019s retired now, so good luck."},
@@ -87,7 +87,8 @@ const P=[
 {a:["Billy","Patrick"],t:"Fixed Effects and Unbalanced Panels",j:"Working Paper",th:"Econometrics"},
 {a:["Billy","Jan"],t:"Spatial Econometrics in Stata",j:"Software",th:"Econometrics"},
 {a:["Billy","Tony","Eshwar","Maryam"],t:"LLM Applications in Finance Research",j:"Working Paper",th:"LLM Research"},
-{a:["Billy","Weston"],t:"Research in Progress",j:"Working Paper",th:"Corporate Finance"}
+{a:["Billy","Weston"],t:"Research in Progress",j:"Working Paper",th:"Corporate Finance"},
+{a:["Morad","Jim"],t:"Spatial Econometrics Research",j:"Published",th:"Network Econometrics"}
 ];
 const edges=[];let eid=0;
 P.forEach(p=>{for(let i=0;i<p.a.length;i++)for(let j=i+1;j<p.a.length;j++)edges.push({id:eid++,source:p.a[i],target:p.a[j],title:p.t,journal:p.j,theme:p.th,color:TH[p.th]})});
@@ -99,22 +100,31 @@ const svg=d3.select("#graph").attr("width",W).attr("height",H);
 const g=svg.append("g");
 svg.call(d3.zoom().scaleExtent([0.2,5]).on("zoom",e=>g.attr("transform",e.transform)));
 const sim=d3.forceSimulation(nodes)
-  .force("link",d3.forceLink(edges).id(d=>d.id).distance(155).strength(0.25))
-  .force("charge",d3.forceManyBody().strength(-480))
+  .force("link",d3.forceLink(edges).id(d=>d.id).distance(200).strength(0.35))
+  .force("charge",d3.forceManyBody().strength(-600))
   .force("center",d3.forceCenter(W/2,H/2))
   .force("collision",d3.forceCollide().radius(48))
   .force("x",d3.forceX(W/2).strength(0.04))
   .force("y",d3.forceY(H/2).strength(0.04));
 const billy=nodes.find(n=>n.id==="Billy");billy.fx=W/2;billy.fy=H/2;
 const link=g.selectAll(".link").data(edges).join("path").attr("class","link").attr("fill","none").attr("stroke",d=>d.color).attr("stroke-width",2.5).attr("stroke-opacity",0.3).style("cursor","pointer");
-const nR=42,bR=60;
+const nR=36,bR=48;
 const nG=g.selectAll(".node").data(nodes).join("g").attr("class","node").style("cursor","pointer")
   .call(d3.drag().on("start",(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y}).on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y}).on("end",(e,d)=>{if(!e.active)sim.alphaTarget(0);if(!d.center){d.fx=null;d.fy=null}}));
+
+// Node circles
 nG.append("circle").attr("r",d=>d.center?bR:nR).attr("fill",d=>d.center?"rgba(224,120,48,0.15)":"rgba(138,146,168,0.08)").attr("stroke",d=>d.center?"#e07830":"#3a4060").attr("stroke-width",d=>d.center?2.5:1.5);
-nG.filter(d=>!d.center).append("text").text("website").attr("text-anchor","middle").attr("dy",".35em").attr("fill","#e07830").attr("font-family","'JetBrains Mono',monospace").attr("font-size","8px").attr("font-weight","500").attr("text-decoration","underline").style("cursor","pointer").on("click",(e,d)=>{e.stopPropagation();window.open(d.url,"_blank")});
-nG.filter(d=>d.center).append("text").text("").attr("text-anchor","middle").attr("dy",".35em").attr("fill","#e07830").attr("font-family","'Fraunces',serif").attr("font-size","14px").attr("font-weight","500");
-nG.append("text").text(d=>d.center?"William":d.first).attr("text-anchor","middle").attr("dy",d=>d.center?-(bR+10):-(nR+10)).attr("fill","#e8ecf4").attr("font-family","'Source Serif 4',serif").attr("font-size",d=>d.center?"11px":"10px").attr("font-weight","300");
-nG.append("text").text(d=>d.last).attr("text-anchor","middle").attr("dy",d=>d.center?(bR+16):(nR+16)).attr("fill","#e8ecf4").attr("font-family","'Source Serif 4',serif").attr("font-size",d=>d.center?"12px":"10px").attr("font-weight","600");
+
+// === COAUTHOR NODES: first name, last name, "site" all inside ===
+nG.filter(d=>!d.center).append("text").text(d=>d.first).attr("text-anchor","middle").attr("dy","-0.6em").attr("fill","#e8ecf4").attr("font-family","'Source Serif 4',serif").attr("font-size","10px").attr("font-weight","400");
+nG.filter(d=>!d.center).append("text").text(d=>d.last).attr("text-anchor","middle").attr("dy","0.5em").attr("fill","#e8ecf4").attr("font-family","'Source Serif 4',serif").attr("font-size","10px").attr("font-weight","400");
+nG.filter(d=>!d.center).append("text").text("website").attr("text-anchor","middle").attr("dy","2em").attr("fill","#e07830").attr("font-family","'JetBrains Mono',monospace").attr("font-size","9px").attr("font-weight","400").attr("text-decoration","underline").style("cursor","pointer").on("click",(e,d)=>{e.stopPropagation();window.open(d.url,"_blank")});
+
+// === BILLY NODE: name inside ===
+nG.filter(d=>d.center).append("text").text("Billy").attr("text-anchor","middle").attr("dy","-0.3em").attr("fill","#e07830").attr("font-family","'Fraunces',serif").attr("font-size","14px").attr("font-weight","800");
+nG.filter(d=>d.center).append("text").text("Grieser").attr("text-anchor","middle").attr("dy","1em").attr("fill","#e07830").attr("font-family","'Fraunces',serif").attr("font-size","11px").attr("font-weight","400");
+
+// === TOOLTIPS ===
 const tooltip=document.getElementById("tooltip"),edgeTooltip=document.getElementById("edge-tooltip");
 function posT(ev,el){let x=ev.pageX+16,y=ev.pageY-10;if(x+360>window.innerWidth)x=ev.pageX-370;if(y+250>window.innerHeight)y=ev.pageY-250;el.style.left=x+"px";el.style.top=y+"px"}
 nG.on("mouseover",function(ev,d){
