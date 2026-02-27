@@ -95,44 +95,99 @@ nav {
 
 /* ===== HERO ===== */
 .hero {
-  min-height: 40vh;
+  min-height: 85vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 10px;
-  position: relative;
-}
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
   align-items: center;
+  padding-top: 80px;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
 }
-.hero-text h1 {
+
+/* Orb — behind everything */
+.hero-orb-wrap {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+  pointer-events: none;
+}
+.hero-orb {
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 30% 30%, var(--amber-glow), transparent 60%),
+              radial-gradient(ellipse at 70% 70%, rgba(74,158,142,0.08), transparent 50%);
+  filter: blur(80px);
+  animation: orb-drift 12s ease-in-out infinite alternate;
+}
+@keyframes orb-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(15px, -20px) scale(1.05); }
+  100% { transform: translate(-10px, 10px) scale(0.97); }
+}
+
+/* Photo/Video container */
+.hero-photo {
+  position: relative;
+  width: 180px; height: 180px;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  z-index: 2;
+  box-shadow: 0 0 40px rgba(224,120,48,0.12), 0 0 80px rgba(224,120,48,0.06);
+  overflow: hidden;
+}
+.hero-photo::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid rgba(224,120,48,0.3);
+  pointer-events: none;
+}
+.hero-photo video {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 20%;
+  mix-blend-mode: lighten;
+}
+
+/* Hero text — centered */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 560px;
+}
+.hero-content h1 {
   font-family: 'Fraunces', serif;
-  font-size: 24px;
+  font-size: 32px;
   font-weight: 300;
   color: var(--white);
   letter-spacing: -1px;
-  line-height: 1.1;
-  margin-bottom: 4px;
+  line-height: 1.15;
+  margin-bottom: 6px;
 }
-.hero-text h1 em {
+.hero-content h1 em {
   font-size: 18px;
   font-style: italic;
   font-weight: 200;
   color: var(--amber);
+  display: block;
+  margin-top: 4px;
 }
-.hero-text .subtitle {
-  font-size: 12px;
+.hero-content .subtitle {
+  font-size: 13px;
   color: var(--text);
   line-height: 1.8;
-  max-width: 460px;
-  margin-bottom: 12px;
+  max-width: 500px;
+  margin: 0 auto 16px;
 }
-.hero-text .subtitle strong { color: var(--light); font-weight: 500; }
+.hero-content .subtitle strong { color: var(--light); font-weight: 500; }
 .hero-meta {
-  display: flex; gap: 16px;
+  display: flex; gap: 18px;
+  justify-content: center;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
   text-transform: uppercase;
@@ -146,26 +201,12 @@ nav {
 }
 .hero-meta a:hover { color: var(--amber); }
 
-/* Hero right — ambient visual */
-.hero-visual {
-  position: relative;
-  height: 320px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.hero-orb {
-  width: 320px; height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 30% 30%, var(--amber-glow), transparent 60%),
-              radial-gradient(ellipse at 70% 70%, rgba(74,158,142,0.08), transparent 50%);
-  filter: blur(60px);
-  animation: orb-drift 12s ease-in-out infinite alternate;
-}
-@keyframes orb-drift {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(15px, -20px) scale(1.05); }
-  100% { transform: translate(-10px, 10px) scale(0.97); }
+/* Equations — positioned around the centered composition */
+.hero-equations {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1;
+  pointer-events: none;
 }
 .hero-equation {
   position: absolute;
@@ -176,11 +217,11 @@ nav {
   white-space: nowrap;
   text-shadow: 0 0 20px rgba(224,120,48,0.15);
 }
-.eq-1 { top: 40px; left: 40px; animation: eq-fade 4s ease-in-out infinite; }
-.eq-2 { top: 70px; left: 180px; animation: eq-fade 4s ease-in-out 3s infinite; }
-.eq-3 { top: 120px; left: 10px; animation: eq-fade 4s ease-in-out 6s infinite; }
-.eq-4 { top: 140px; left: 168px; animation: eq-fade 4s ease-in-out 6s infinite; }
-.eq-5 { top: 160px; left: 155px; animation: eq-fade 1s ease-in-out 1s infinite; }
+.eq-1 { top: 12%; left: 5%; animation: eq-fade 4s ease-in-out infinite; }
+.eq-2 { top: 22%; right: 8%; animation: eq-fade 4s ease-in-out 3s infinite; }
+.eq-3 { bottom: 28%; left: 3%; animation: eq-fade 4s ease-in-out 6s infinite; }
+.eq-4 { top: 55%; right: 5%; animation: eq-fade 4s ease-in-out 6s infinite; }
+.eq-5 { bottom: 15%; right: 12%; animation: eq-fade 1s ease-in-out 1s infinite; }
 @keyframes eq-fade {
   0%, 100% { opacity: 0.1; } 50% { opacity: 0.85; }
 }
@@ -499,26 +540,15 @@ footer {
   margin: 80px 0;
 }
 
-/* ===== DESKTOP EQUATION POSITIONING ===== */
-@media (min-width: 769px) {
-  :root { --eq-x: 160px; --eq-y: 55px; }
-  .hero-visual .eq-1 { top: calc(40px  + var(--eq-y)) !important; left: calc(40px  + var(--eq-x)) !important; }
-  .hero-visual .eq-2 { top: calc(70px  + var(--eq-y)) !important; left: calc(180px + var(--eq-x)) !important; }
-  .hero-visual .eq-3 { top: calc(120px + var(--eq-y)) !important; left: calc(10px  + var(--eq-x)) !important; }
-  .hero-visual .eq-4 { top: calc(140px + var(--eq-y)) !important; left: calc(168px + var(--eq-x)) !important; }
-  .hero-visual .eq-5 { top: calc(160px + var(--eq-y)) !important; left: calc(155px + var(--eq-x)) !important; }
-}
-
-/* ===== RESPONSIVE: TABLET LANDSCAPE / SMALL LAPTOP (769–1024px) ===== */
+/* ===== RESPONSIVE: TABLET LANDSCAPE (769–1024px) ===== */
 @media (max-width: 1024px) and (min-width: 769px) {
   .section { padding: 0 24px; }
-  .hero-text h1 { font-size: 22px; }
-  .hero-text h1 em { font-size: 16px; }
-  .hero-visual { height: 260px; }
-  .hero-orb { width: 240px; height: 240px; }
+  .hero { min-height: 75vh; padding-top: 70px; }
+  .hero-photo { width: 160px; height: 160px; }
+  .hero-content h1 { font-size: 28px; }
+  .hero-orb { width: 400px; height: 400px; }
   .music-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
   .song-art { height: 150px; }
-  .research-card { grid-template-columns: 60px 1fr auto; }
   .blog-excerpt { max-width: 300px; font-size: 11px; }
 }
 
@@ -526,48 +556,28 @@ footer {
 @media (max-width: 768px) {
   body { padding-top: 56px; }
   .section { padding: 0 20px; }
-
-  /* Nav: shrink gaps and font, keep horizontal */
   .nav-inner { padding: 10px 16px; }
   .nav-links { gap: 12px; flex-wrap: wrap; }
   .nav-links a { font-size: 8px; letter-spacing: 1px; }
 
-  /* Hero: stack to single column */
-  .hero { min-height: auto; padding-top: 20px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 24px; }
-  .hero-text h1 { font-size: 28px; }
-  .hero-text h1 em { font-size: 18px; }
-  .hero-text .subtitle { font-size: 12px; max-width: 100%; }
-  .hero-visual { height: 200px; }
-  .hero-orb { width: 200px; height: 200px; }
+  .hero { min-height: 70vh; padding-top: 40px; }
+  .hero-photo { width: 140px; height: 140px; margin-bottom: 20px; }
+  .hero-content h1 { font-size: 26px; }
+  .hero-content h1 em { font-size: 16px; }
+  .hero-content .subtitle { font-size: 12px; }
+  .hero-orb { width: 300px; height: 300px; }
   .hero-equation { font-size: 10px; }
+  .eq-3 { display: none; }
 
-  /* Research: drop tag column */
   .research-card { grid-template-columns: 50px 1fr; gap: 8px; }
   .rc-tag { display: none; }
-  .rc-title { font-size: 13px; }
-
-  /* Music: 2 columns */
   .music-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
   .song-art { height: 140px; }
   .song-info { padding: 12px 14px; }
-  .song-title { font-size: 12px; }
-  .song-desc { font-size: 11px; }
-
-  /* About: stack sidebar below */
   .about-grid { grid-template-columns: 1fr; gap: 24px; }
-  .about-text { font-size: 11px; }
-
-  /* Teaching: single column */
   .teaching-grid { grid-template-columns: 1fr; gap: 14px; }
-
-  /* Blog: hide excerpt */
   .blog-excerpt { display: none; }
-
-  /* Section headers */
   .section-title { font-size: 22px; }
-
-  /* Footer */
   .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
   footer { margin-top: 60px; }
 }
@@ -576,63 +586,32 @@ footer {
 @media (max-width: 480px) {
   body { padding-top: 48px; }
   .section { padding: 0 16px; }
-
-  /* Nav: tighter, smaller */
   .nav-inner { padding: 8px 12px; }
   .nav-name { font-size: 9px; }
   .nav-links { gap: 8px; }
   .nav-links a { font-size: 7px; letter-spacing: 1px; }
 
-  /* Hero */
-  .hero { padding-top: 12px; }
-  .hero-grid { gap: 16px; }
-  .hero-text h1 { font-size: 24px; line-height: 1.2; }
-  .hero-text h1 em { font-size: 15px; }
-  .hero-text .subtitle { font-size: 11px; line-height: 1.7; margin-bottom: 10px; }
+  .hero { min-height: auto; padding-top: 24px; padding-bottom: 24px; }
+  .hero-photo { width: 120px; height: 120px; margin-bottom: 16px; }
+  .hero-content h1 { font-size: 22px; }
+  .hero-content h1 em { font-size: 14px; }
+  .hero-content .subtitle { font-size: 11px; line-height: 1.7; }
   .hero-meta { gap: 10px; font-size: 9px; flex-wrap: wrap; }
-  .hero-visual { height: 160px; }
-  .hero-orb { width: 160px; height: 160px; filter: blur(40px); }
+  .hero-orb { width: 220px; height: 220px; filter: blur(50px); }
   .hero-equation { font-size: 8px; }
-  .eq-3 { display: none; } /* hide longest equation on tiny screens */
+  .eq-3 { display: none; }
 
-  /* Research */
   .research-card { grid-template-columns: 1fr; gap: 4px; padding: 10px 0; }
-  .rc-year { font-size: 10px; }
-  .rc-title { font-size: 13px; }
-  .rc-authors { font-size: 11px; }
-  .rc-journal { font-size: 9px; }
   .research-card:hover { margin: 0 -8px; padding: 12px 8px; }
-
-  /* Music: single column */
   .music-grid { grid-template-columns: 1fr; gap: 12px; }
   .song-art { height: 160px; }
-
-  /* About */
-  .about-text { font-size: 11px; line-height: 1.8; }
-  .about-sidebar { padding: 14px; }
-  .about-sidebar .info-row { font-size: 11px; }
-
-  /* Teaching */
-  .teach-card { padding: 14px; }
+  .about-text { font-size: 11px; }
   .teach-card h3 { font-size: 13px; }
-  .teach-card p { font-size: 10px; }
-
-  /* Blog */
   .blog-item { gap: 8px; padding: 8px 0; }
-  .blog-item:hover { margin: 0 -8px; padding: 12px 8px; }
-  .blog-date { font-size: 9px; min-width: 50px; }
-  .blog-title { font-size: 12px; }
-
-  /* Section headers */
   .section-header { padding-top: 28px; margin-bottom: 10px; }
   .section-label { font-size: 9px; letter-spacing: 2px; }
   .section-title { font-size: 20px; }
-
-  /* Footer */
   footer { margin-top: 40px; padding: 24px 0; }
-  .footer-left { font-size: 9px; }
-  .footer-links { gap: 16px; }
-  .footer-links a { font-size: 9px; }
 }
 </style>
 </head>
@@ -656,26 +635,34 @@ footer {
 
 <!-- HERO -->
 <section class="hero section" id="home">
-  <div class="hero-grid">
-    <div class="hero-text">
-      <h1>William Grieser<br><em>Associate Professor of Finance</em></h1>
-      <p class="subtitle">
-        Finance professor. Network economist. Songwriter. I study how firms' decisions ripple through production and geographic networks, and I write rap songs about Ben Bernanke. My music page is probably more intersting than my research page!
-      </p>
-      <div class="hero-meta">
-        <a href="/cdn-cgi/l/email-protection#67100e0b0b0e060a4900150e0214021527080c141306130249020312">email</a>
-        <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=TTW153AAAAAJ&gmla=AF9nlQuMfhs_xUeQ95v8boDOMi_3BIRPHTb5ziy290Htnwu5Mc7NoAIyq-OHtqt4ft6-o-ofiIHneMt747P-3mpuo2L7-r1juFxybJKK2qgtSzMJFv5Z" target="_blank">google scholar</a>
-        <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=2438422" target="_blank">ssrn</a>
-        <a href="https://github.com/Wgrieser" target="_blank">github</a>
-      </div>
+  <!-- Orb background -->
+  <div class="hero-orb-wrap"><div class="hero-orb"></div></div>
+
+  <!-- Equations scattered around edges -->
+  <div class="hero-equations">
+    <span class="hero-equation eq-1">\(y=(I-\rho W)^{-1}X\beta \)</span>
+    <span class="hero-equation eq-2">\(\partial V/\partial K = q(\theta)\)</span>
+    <span class="hero-equation eq-3">\( L = \iint \left[ B(a,t) + C(a,t) \right] \cdot \left[ D(a,t) + I\big( R(a,t) \big) \right] \, da \, dt \)</span>
+    <span class="hero-equation eq-4">\(\Rightarrow\)</span>
+    <span class="hero-equation eq-5">\(L = \int e(t)\, dt \)</span>
+  </div>
+
+  <!-- Centered content: photo → name → subtitle → links -->
+  <div class="hero-content">
+    <div class="hero-photo">
+      <video id="hero-vid" autoplay muted playsinline>
+        <source src="loop1.mp4" type="video/mp4">
+      </video>
     </div>
-    <div class="hero-visual">
-      <div class="hero-orb"></div>
-      <span class="hero-equation eq-1">\(y=(I-\rho W)^{-1}X\beta \)</span>
-      <span class="hero-equation eq-2">\(∂V/∂K = q(θ)\)</span>
-      <span class="hero-equation eq-3">\( L = \iint \left[ B(a,t) + C(a,t) \right] \cdot \left[ D(a,t) + I\big( R(a,t) \big) \right] \, da \, dt \)</span>
-      <span class="hero-equation eq-4">\(\Rightarrow\)</span>
-      <span class="hero-equation eq-5">\(L = \int e(t)\, dt \)</span>
+    <h1>William Grieser<em>Associate Professor of Finance</em></h1>
+    <p class="subtitle">
+      Finance professor. Network economist. Songwriter. I study how firms' decisions ripple through production and geographic networks, and I write rap songs about Ben Bernanke.
+    </p>
+    <div class="hero-meta">
+      <a href="mailto:william.grieser@okstate.edu">email</a>
+      <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&user=TTW153AAAAAJ" target="_blank">google scholar</a>
+      <a href="https://papers.ssrn.com/sol3/cf_dev/AbsByAuth.cfm?per_id=2438422" target="_blank">ssrn</a>
+      <a href="https://github.com/Wgrieser" target="_blank">github</a>
     </div>
   </div>
 </section>
@@ -1010,6 +997,22 @@ footer {
   <div class="footer-inner">
     <div class="footer-left">© 2026 William Grieser · Stillwater, OK</div>
     <div class="footer-links">
-      <a href="/cdn-cgi/l/email-protection#17757e7b7b6e3970657e7264726557787c646376637239727362">Email</a>
+      <a href="/cdn-cgi/l/email-protection#2143484d4d580f46534844524453614e4a52554055440f444554">Email</a>
       <a href="#">Scholar</a>
-      
+            <a href="#">SSRN</a>
+      <a href="#">Twitter</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const v = document.getElementById('hero-vid');
+v.addEventListener('ended', () => {
+  v.src = 'loop2.mp4';
+  v.loop = true;
+  v.play();
+});
+</script>
+
+</body>
+</html>
