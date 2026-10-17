@@ -3,53 +3,97 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Coauthor Network — William Grieser</title>
+<title>Coauthors | William Grieser</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0a0c10;--card:#13161f;--border:#1e2333;--muted:#4a5270;--text:#8b92a8;--light:#c4c9d8;--white:#e8ecf4;--amber:#e07830}
+:root{
+  --bg:#0c0e13;--panel:#12151d;--line:#232838;--muted:#5d6480;--text:#9aa1b6;--light:#cdd2df;--white:#eef1f7;--amber:#e07830;
+}
 *{margin:0;padding:0;box-sizing:border-box}
 ::selection{background:var(--amber);color:var(--bg)}
-body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--text);min-height:100vh;overflow:hidden}
-body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
-.header{position:fixed;top:0;left:0;right:0;z-index:50;padding:20px 32px;background:linear-gradient(to bottom,rgba(10,12,16,0.95),rgba(10,12,16,0));pointer-events:none}
-.header h1{font-family:'Fraunces',serif;font-size:28px;font-weight:800;color:var(--white);letter-spacing:-1px;pointer-events:auto}
-.header h1 em{font-style:italic;font-weight:400;color:var(--amber)}
-.header p{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
-.legend{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:50;display:flex;flex-wrap:wrap;gap:14px;padding:10px 20px;background:rgba(19,22,31,0.92);border:1px solid var(--border);border-radius:8px;backdrop-filter:blur(12px);
-  max-width: 600px; 
-  justify-content: center;
-}
-.leg-item{display:flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.8px;color:var(--text);text-transform:uppercase}
-.leg-line{width:20px;height:3px;border-radius:2px;flex-shrink:0}
-svg{display:block;width:100vw;height:100vh;cursor:grab}
+html,body{background:var(--bg)}
+body{font-family:'Source Serif 4',Georgia,serif;color:var(--text);min-height:100vh}
+a{color:inherit}
+.wrap{display:grid;grid-template-columns:minmax(0,1fr) 360px;min-height:100vh}
+.stage{position:relative;display:flex;flex-direction:column;padding:28px 32px 20px;height:100vh}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+h1{font-family:'Fraunces',serif;font-weight:800;font-size:30px;letter-spacing:-.6px;color:var(--white)}
+.back{font-size:15px;color:var(--amber);text-decoration:none;border-bottom:1px solid transparent}
+.back:hover,.back:focus-visible{border-bottom-color:var(--amber)}
+.lede{margin-top:6px;font-size:15px;color:var(--muted);max-width:60ch;line-height:1.5}
+.chart{flex:1;min-height:0;position:relative}
+svg{position:absolute;inset:0;display:block;cursor:grab}
 svg:active{cursor:grabbing}
-.tooltip{position:fixed;background:#141825;border:1px solid var(--border);border-radius:10px;padding:0;pointer-events:none;z-index:100;max-width:360px;min-width:240px;box-shadow:0 12px 40px rgba(0,0,0,.6);opacity:0;transition:opacity 0.15s;overflow:hidden}
-.tooltip.show{opacity:1}
-.tt-header{padding:14px 18px 10px;border-bottom:1px solid var(--border)}
-.tt-name{font-family:'Fraunces',serif;font-weight:600;color:var(--white);font-size:16px;margin-bottom:2px}
-.tt-inst{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.tt-quote{padding:10px 18px;font-style:italic;color:var(--amber);font-size:12px;line-height:1.6;border-bottom:1px solid var(--border)}
-.tt-body{padding:10px 18px 14px}
-.tt-row{display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:11px}
-.tt-label{color:var(--muted)}.tt-val{font-weight:600;color:var(--white);text-align:right}
-.edge-tooltip{position:fixed;background:#141825;border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:11px;pointer-events:none;z-index:100;max-width:320px;box-shadow:0 8px 24px rgba(0,0,0,.5);opacity:0;transition:opacity 0.12s}
-.edge-tooltip.show{opacity:1}
-.et-title{font-family:'Fraunces',serif;font-weight:600;color:var(--white);font-size:13px;margin-bottom:4px;line-height:1.3}
-.et-meta{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.themes{display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:center;padding-top:6px}
+.theme{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--text);background:none;border:0;cursor:pointer;padding:4px 2px;font-family:inherit}
+.theme i{width:16px;height:3px;border-radius:2px;display:block}
+.theme[aria-pressed="true"]{color:var(--white)}
+.theme:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:3px}
+.dim .theme:not([aria-pressed="true"]){opacity:.45}
+
+/* graph */
+.spoke{fill:none;stroke:var(--amber);stroke-linecap:round;transition:stroke-opacity .2s}
+.tie{fill:none;stroke-linecap:round;transition:stroke-opacity .2s}
+.node .dot{fill:var(--bg);stroke-width:2}
+.node text{font-family:'Source Serif 4',serif;fill:var(--light);transition:fill .2s, opacity .2s}
+.node{cursor:grab;transition:opacity .2s}
+.node text{paint-order:stroke;stroke:var(--bg);stroke-width:4px;stroke-linejoin:round}
+.node:focus{outline:none}
+.node:focus-visible .dot{stroke:var(--white)}
+.node.on text{fill:var(--white);font-weight:600}
+.faded{opacity:.14}
+.center-name{font-family:'Fraunces',serif;font-weight:800;fill:var(--amber);font-size:24px}
+.center-sub{font-family:'Source Serif 4',serif;font-style:italic;fill:var(--muted);font-size:14px}
+
+/* panel */
+.panel{border-left:1px solid var(--line);background:var(--panel);padding:32px 28px;overflow-y:auto;max-height:100vh;position:sticky;top:0}
+.p-name{font-family:'Fraunces',serif;font-weight:600;font-size:26px;line-height:1.15;color:var(--white)}
+.p-inst{margin-top:4px;font-size:15px;color:var(--muted)}
+.p-quote{margin-top:18px;font-style:italic;font-size:16px;line-height:1.6;color:var(--light)}
+.p-site{display:inline-block;margin-top:16px;font-size:15px;color:var(--amber);text-decoration:none;border-bottom:1px solid rgba(224,120,48,.4)}
+.p-site:hover,.p-site:focus-visible{border-bottom-color:var(--amber)}
+.p-h{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-family:'Fraunces',serif;font-size:16px;color:var(--white)}
+.papers{list-style:none;margin-top:10px}
+.papers li{padding:9px 0 9px 14px;border-left:3px solid var(--c);margin-bottom:6px}
+.papers .t{font-size:15px;line-height:1.35;color:var(--light)}
+.p-link{text-decoration:none;border-bottom:1px solid var(--line)}
+.p-link:hover,.p-link:focus-visible{border-bottom-color:var(--amber)}
+.papers .j{font-size:13px;color:var(--muted);margin-top:2px}
+.papers .w{font-size:13px;color:var(--muted);margin-top:2px;font-style:italic}
+.p-intro{font-size:16px;line-height:1.6;color:var(--text)}
+.stats{display:flex;gap:28px;margin-top:22px}
+.stat b{display:block;font-family:'Fraunces',serif;font-size:34px;font-weight:600;color:var(--white);line-height:1}
+.stat span{font-size:14px;color:var(--muted)}
+.hint{margin-top:22px;font-size:14px;color:var(--muted);line-height:1.5}
+.close{display:none}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr}
+  .stage{padding:20px 16px 8px}
+  h1{font-size:26px}
+  .stage{height:auto}
+  .chart{flex:none;height:min(115vw,640px)}
+  .panel{position:static;max-height:none;border-left:0;border-top:1px solid var(--line);padding:24px 16px 40px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-<div class="header">
-  <h1>Coauthor <em>Network</em></h1>
-  <p>Each edge is a paper. Hover nodes for details, hover edges for papers. Drag to rearrange. Click "website" to visit their personal research pages.</p>
-  <a href="https://billygrieser.com" style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--amber);text-decoration:none;letter-spacing:1.5px;text-transform:uppercase;pointer-events:auto;margin-top:6px;display:inline-block;">← Back to site</a>
+<div class="wrap">
+  <main class="stage">
+    <div class="top">
+      <h1>Coauthors</h1>
+      <a class="back" href="https://billygrieser.com">Back to billygrieser.com</a>
+    </div>
+    <p class="lede">The people I write papers with. Lines connect people who have written together, and thicker lines mean more papers.</p>
+    <div class="chart"><svg id="graph" role="img" aria-label="Coauthor network"></svg></div>
+    <div class="themes" id="themes"></div>
+  </main>
+  <aside class="panel" id="panel" aria-live="polite"></aside>
 </div>
-<div class="legend" id="legend"></div>
-<svg id="graph"></svg>
-<div class="tooltip" id="tooltip"></div>
-<div class="edge-tooltip" id="edge-tooltip"></div>
 <script>
+/* ===== DATA: edit A (people) and P (papers) below ===== */
 const TH={"Network Econometrics":"#5a8ef5","Corporate Investment":"#2dd4bf","Corporate Finance":"#e07830","Accounting & Fraud":"#e8637a","LLM Research":"#a855f7","Econometrics":"#4ade80"};
 const A={
 "Billy":{f:"William",l:"Grieser",inst:"Oklahoma State University",url:"https://billygrieser.com",q:"",c:true},
@@ -90,73 +134,163 @@ const P=[
 {a:["Billy","Patrick","Jan","Stephen"],t:"Decomposing Spillover Effects of Restatements",j:"JBFA 2026",th:"Accounting & Fraud"},
 {a:["Billy","Jan"],t:"Spatial Econometrics in Stata",j:"Software",th:"Econometrics"},
 {a:["Billy","Tony","Eshwar","Maryam"],t:"LLMs and Systematic Measurement Error",j:"Working Paper",th:"LLM Research"},
-{a:["Billy","Patrick","Weston"],t:"Unfixing Fixed Effects",j:"Working Paper",th:"Econometrics"}
+{a:["Billy","Patrick","Weston"],t:"Unfixing Fixed Effects",j:"Working Paper",th:"Econometrics"},
+// papers I'm not on: drawn as dashed lines between coauthors. ext = coauthors without a node.
+{a:["Patrick","Audra"],t:"Mitigating Acquisition Risk: The Critical Role of Indemnification during Merger Contracting",j:"Working Paper",ext:["Disen Huang Albrecht"],url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5124498"},
+{a:["Stephen","Patrick"],t:"Will Travel for Packages: The Effect of Economic Nexus Standards on Cross-Border Package Delivery",j:"Working Paper",url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6330778"},
+{a:["Patrick","Stephen"],t:"Sample Heterogeneity in Archival Accounting Research",j:"Working Paper",ext:["Karen K. Nelson"],url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4980493"},
+{a:["Weston","Morad"],t:"Safe Minus Risky: Do Investors Pay a Premium for Stocks that Hedge Stock Market Downturns?",j:"Working Paper",ext:["Nishad Kapadia","Barbara Ostdiek"],url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2627848"},
+{a:["Ioannis","Morad"],t:"The Role of Networks in Loan Syndicate Markets",j:"Working Paper",ext:["Jeffrey H. Harris","Celso Brunetti"],url:"https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3295980"}
 ];
-const edges=[];let eid=0;
-P.forEach(p=>{for(let i=0;i<p.a.length;i++)for(let j=i+1;j<p.a.length;j++)edges.push({id:eid++,source:p.a[i],target:p.a[j],title:p.t,journal:p.j,theme:p.th,color:TH[p.th]})});
-const nodes=Object.entries(A).map(([id,d])=>({id,first:d.f,last:d.l,inst:d.inst,url:d.url,quote:d.q,center:!!d.c}));
-const legend=document.getElementById("legend");
-Object.entries(TH).forEach(([n,c])=>{const e=document.createElement("div");e.className="leg-item";e.innerHTML=`<div class="leg-line" style="background:${c}"></div>${n}`;legend.appendChild(e)});
-const W=window.innerWidth,H=window.innerHeight;
-const svg=d3.select("#graph").attr("width",W).attr("height",H);
+
+/* ===== END DATA ===== */
+
+const ME="Billy";
+const OTHER="#6b7190"; // color for papers I'm not on
+const ids=Object.keys(A).filter(k=>k!==ME);
+const mine=p=>p.a.includes(ME);
+const papersOf=id=>P.filter(p=>p.a.includes(id)&&mine(p));
+const otherPapersOf=id=>P.filter(p=>p.a.includes(id)&&!mine(p));
+const titleOf=p=>p.t||"Joint paper";
+
+// pairwise coauthor ties (excluding me), one per pair
+const tieMap=new Map();
+P.forEach(p=>{const o=p.a.filter(x=>x!==ME&&A[x]);for(let i=0;i<o.length;i++)for(let j=i+1;j<o.length;j++){const k=[o[i],o[j]].sort().join("|");if(!tieMap.has(k))tieMap.set(k,{a:o[i],b:o[j],papers:[]});tieMap.get(k).papers.push(p)}});
+const tieData=[...tieMap.values()].map(t=>({...t,withMe:t.papers.some(mine),color:(t.papers.find(mine)?TH[t.papers.find(mine).th]:OTHER)}));
+
+const svg=d3.select("#graph");
+const chartEl=document.querySelector(".chart");
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let W,H,mobile,FS;
+function measure(){W=chartEl.clientWidth;H=chartEl.clientHeight;mobile=W<620;FS=mobile?11.5:13.5;svg.attr("width",W).attr("height",H).attr("viewBox",`0 0 ${W} ${H}`)}
+measure();
+
 const g=svg.append("g");
-svg.call(d3.zoom().scaleExtent([0.2,5]).on("zoom",e=>g.attr("transform",e.transform)));
-const sim=d3.forceSimulation(nodes)
-  .force("link",d3.forceLink(edges).id(d=>d.id).distance(200).strength(0.35))
-  .force("charge",d3.forceManyBody().strength(-600))
-  .force("center",d3.forceCenter(W/2,H/2))
-  .force("collision",d3.forceCollide().radius(48))
-  .force("x",d3.forceX(W/2).strength(0.04))
-  .force("y",d3.forceY(H/2).strength(0.04));
-const billy=nodes.find(n=>n.id==="Billy");billy.fx=W/2;billy.fy=H/2;
-const link=g.selectAll(".link").data(edges).join("path").attr("class","link").attr("fill","none").attr("stroke",d=>d.color).attr("stroke-width",2.5).attr("stroke-opacity",0.3).style("cursor","pointer");
-const nR=38,bR=42;
-const nG=g.selectAll(".node").data(nodes).join("g").attr("class","node").style("cursor","pointer")
-  .call(d3.drag().on("start",(e,d)=>{if(!e.active)sim.alphaTarget(0.3).restart();d.fx=d.x;d.fy=d.y}).on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y}).on("end",(e,d)=>{if(!e.active)sim.alphaTarget(0);if(!d.center){d.fx=null;d.fy=null}}));
+if(!mobile)svg.call(d3.zoom().scaleExtent([.5,3]).on("zoom",e=>g.attr("transform",e.transform))).on("dblclick.zoom",null);
 
-// Node circles
-nG.append("circle").attr("r",d=>d.center?bR:nR).attr("fill",d=>d.center?"rgba(224,120,48,0.15)":"rgba(138,146,168,0.08)").attr("stroke",d=>d.center?"#e07830":"#3a4060").attr("stroke-width",d=>d.center?2.5:1.5);
+const me={id:ME,center:true,x:W/2,y:H/2,fx:W/2,fy:H/2};
+const nodes=ids.map((id,i)=>{const d=A[id];const ps=papersOf(id);const ang=i*2.39996,rr=20+4*Math.sqrt(i);
+  return{id,x:W/2+rr*Math.cos(ang),y:H/2+rr*Math.sin(ang),first:d.f,last:d.l,inst:d.inst,url:d.url,quote:d.q,papers:ps,others:otherPapersOf(id),
+    themes:[...new Set(ps.map(p=>p.th))],color:TH[ps[0]?.th]||OTHER,r:(mobile?4:5)+Math.min(ps.length,5)*1.6}});
+const byId=Object.fromEntries(nodes.map(d=>[d.id,d]));byId[ME]=me;
+const spokeData=nodes.map(d=>({source:me,target:d,n:d.papers.length}));
+const ties=tieData.map(t=>({...t,source:byId[t.a],target:byId[t.b]}));
 
-// === COAUTHOR NODES: first name, last name, "website" all inside ===
-nG.filter(d=>!d.center).append("text").text(d=>d.first).attr("text-anchor","middle").attr("dy","-0.6em").attr("fill","#e8ecf4").attr("font-family","'Source Serif 4',serif").attr("font-size","10px").attr("font-weight","400");
-nG.filter(d=>!d.center).append("text").text(d=>d.last).attr("text-anchor","middle").attr("dy","0.5em").attr("fill","#e8ecf4").attr("font-family","'Source Serif 4',serif").attr("font-size","10px").attr("font-weight","400");
-nG.filter(d=>!d.center).append("text").text("website").attr("text-anchor","middle").attr("dy","2em").attr("fill","#e07830").attr("font-family","'JetBrains Mono',monospace").attr("font-size","9px").attr("font-weight","400").attr("text-decoration","underline").style("cursor","pointer").on("click",(e,d)=>{e.stopPropagation();window.open(d.url,"_blank")});
+// layers
+const spokes=g.append("g").selectAll("line").data(spokeData).join("line").attr("class","spoke")
+  .attr("stroke-width",d=>.8+d.n*1.1).attr("stroke-opacity",.22);
+const tieSel=g.append("g").selectAll("path").data(ties).join("path").attr("class","tie")
+  .attr("stroke",t=>t.color).attr("stroke-width",t=>1.2+t.papers.length*1.1)
+  .attr("stroke-dasharray",t=>t.withMe?null:"4 4").attr("stroke-opacity",.5);
 
-// === BILLY NODE: name inside ===
-nG.filter(d=>d.center).append("text").text("Billy").attr("text-anchor","middle").attr("dy","-0.3em").attr("fill","#e07830").attr("font-family","'Fraunces',serif").attr("font-size","14px").attr("font-weight","800");
-nG.filter(d=>d.center).append("text").text("Grieser").attr("text-anchor","middle").attr("dy","1em").attr("fill","#e07830").attr("font-family","'Fraunces',serif").attr("font-size","11px").attr("font-weight","400");
+const centerSel=g.append("g").attr("class","center");
+centerSel.append("circle").attr("r",mobile?30:38).attr("fill","var(--bg)").attr("stroke","#e07830").attr("stroke-width",2);
+centerSel.append("text").attr("class","center-name").style("font-size",(mobile?16:20)+"px").attr("text-anchor","middle").attr("y",mobile?2:1).text("Billy");
+centerSel.append("text").attr("class","center-sub").style("font-size",(mobile?10:12)+"px").attr("text-anchor","middle").attr("y",mobile?15:17).text("Grieser");
 
-// === TOOLTIPS ===
-const tooltip=document.getElementById("tooltip"),edgeTooltip=document.getElementById("edge-tooltip");
-function posT(ev,el){let x=ev.pageX+16,y=ev.pageY-10;if(x+360>window.innerWidth)x=ev.pageX-370;if(y+250>window.innerHeight)y=ev.pageY-250;el.style.left=x+"px";el.style.top=y+"px"}
-nG.on("mouseover",function(ev,d){
-  if(d.center)return;
-  const mp=P.filter(p=>p.a.includes(d.id)&&p.a.includes("Billy"));
-  const topics=[...new Set(mp.map(p=>p.th))];
-  link.attr("stroke-opacity",l=>(l.source.id===d.id||l.target.id===d.id)?0.85:0.06);
-  nG.each(function(n){const conn=n.id===d.id||n.center||edges.some(e=>(e.source.id===d.id&&e.target.id===n.id)||(e.target.id===d.id&&e.source.id===n.id));d3.select(this).selectAll("circle").attr("stroke-opacity",conn?1:0.15);d3.select(this).selectAll("text").attr("fill-opacity",conn?1:0.12)});
-  tooltip.className="tooltip show";
-  tooltip.innerHTML=`<div class="tt-header"><div class="tt-name">${d.first} ${d.last}</div><div class="tt-inst">${d.inst}</div></div><div class="tt-quote">\u201C${d.quote}\u201D</div><div class="tt-body"><div class="tt-row"><span class="tt-label">Papers together</span><span class="tt-val">${mp.length}</span></div><div class="tt-row"><span class="tt-label">Themes</span><span class="tt-val" style="font-size:10px">${topics.join(", ")}</span></div>${mp.map(p=>`<div class="tt-row" style="margin-top:2px"><span class="tt-label" style="font-size:10px">\u2022 ${p.t}</span><span class="tt-val" style="font-size:9px;color:${TH[p.th]}">${p.j}</span></div>`).join("")}</div>`;
-  posT(ev,tooltip);
-}).on("mousemove",function(ev){posT(ev,tooltip)}).on("mouseout",function(){tooltip.className="tooltip";link.attr("stroke-opacity",0.3);nG.selectAll("circle").attr("stroke-opacity",1);nG.selectAll("text").attr("fill-opacity",1)});
-link.on("mouseover",function(ev,d){d3.select(this).attr("stroke-width",5).attr("stroke-opacity",0.9);edgeTooltip.className="edge-tooltip show";edgeTooltip.innerHTML=`<div class="et-title">${d.title}</div><div class="et-meta" style="color:${d.color}">${d.journal}</div><div class="et-meta" style="color:#4a5270">${d.theme}</div><div class="et-meta" style="color:#8b92a8;margin-top:4px">${d.source.first} ${d.source.last} \u2194 ${d.target.first} ${d.target.last}</div>`;posT(ev,edgeTooltip)}).on("mousemove",function(ev){posT(ev,edgeTooltip)}).on("mouseout",function(){d3.select(this).attr("stroke-width",2.5).attr("stroke-opacity",0.3);edgeTooltip.className="edge-tooltip"});
-sim.on("tick",()=>{
-  link.attr("d",d=>{const dx=d.target.x-d.source.x,dy=d.target.y-d.source.y,dist=Math.sqrt(dx*dx+dy*dy)||1;const same=edges.filter(e=>(e.source.id===d.source.id&&e.target.id===d.target.id)||(e.source.id===d.target.id&&e.target.id===d.source.id));const idx=same.indexOf(d),tot=same.length;if(tot===1)return`M${d.source.x},${d.source.y}L${d.target.x},${d.target.y}`;const off=(idx-(tot-1)/2)*18;const mx=(d.source.x+d.target.x)/2,my=(d.source.y+d.target.y)/2;const nx=-(dy/dist)*off,ny=(dx/dist)*off;return`M${d.source.x},${d.source.y}Q${mx+nx},${my+ny} ${d.target.x},${d.target.y}`});
-  nG.attr("transform",d=>`translate(${d.x},${d.y})`);
-});
-nG.on("click", function(ev, d) {
-  if(d.center) return;
-  // same tooltip logic as mouseover
-  const mp=P.filter(p=>p.a.includes(d.id)&&p.a.includes("Billy"));
-  const topics=[...new Set(mp.map(p=>p.th))];
-  tooltip.className="tooltip show";
-  tooltip.innerHTML=`<div class="tt-header"><div class="tt-name">${d.first} ${d.last}</div><div class="tt-inst">${d.inst}</div></div><div class="tt-quote">\u201C${d.quote}\u201D</div><div class="tt-body"><div class="tt-row"><span class="tt-label">Papers together</span><span class="tt-val">${mp.length}</span></div><div class="tt-row"><span class="tt-label">Themes</span><span class="tt-val" style="font-size:10px">${topics.join(", ")}</span></div>${mp.map(p=>`<div class="tt-row" style="margin-top:2px"><span class="tt-label" style="font-size:10px">\u2022 ${p.t}</span><span class="tt-val" style="font-size:9px;color:${TH[p.th]}">${p.j}</span></div>`).join("")}</div>`;
-  tooltip.style.left="10px";tooltip.style.bottom="60px";tooltip.style.top="auto";
-});
-svg.on("click", function(ev) {
-  if(ev.target.tagName === "svg") tooltip.className="tooltip";
-});
-window.addEventListener("resize",()=>{const nw=window.innerWidth,nh=window.innerHeight;svg.attr("width",nw).attr("height",nh);sim.force("center",d3.forceCenter(nw/2,nh/2));billy.fx=nw/2;billy.fy=nh/2;sim.alpha(0.3).restart()});
+const nodeSel=g.append("g").selectAll("g").data(nodes).join("g").attr("class","node")
+  .attr("tabindex",0).attr("role","button").attr("aria-label",d=>`${d.first} ${d.last}, ${d.inst}`);
+nodeSel.append("circle").attr("class","hit").attr("r",d=>d.r+10).attr("fill","transparent").attr("stroke","none");
+nodeSel.append("circle").attr("class","dot").attr("r",d=>d.r).attr("stroke",d=>d.color);
+nodeSel.append("text").style("font-size",FS+"px").attr("text-anchor","middle").attr("y",d=>d.r+FS+3)
+  .text(d=>mobile?d.last:`${d.first} ${d.last}`);
+
+// forces: people pulled toward me by how much we've written together, toward each other by shared papers
+const sim=d3.forceSimulation([me,...nodes])
+  .force("spoke",d3.forceLink(spokeData).distance(d=>(mobile?.36:.34)*Math.min(W,H)-d.n*6).strength(.25))
+  .force("tie",d3.forceLink(ties).distance(mobile?60:90).strength(t=>t.withMe?.35:.12))
+  .force("charge",d3.forceManyBody().strength(mobile?-160:-420))
+  .force("collide",d3.forceCollide().radius(d=>d.center?(mobile?40:52):(mobile?26:48)))
+  .force("x",d3.forceX(W/2).strength(.03)).force("y",d3.forceY(H/2).strength(.03));
+if(reduce){sim.stop();for(let i=0;i<300;i++)sim.tick();}
+
+function tiePath(t){const a=t.source,b=t.target;const dx=b.x-a.x,dy=b.y-a.y,dist=Math.hypot(dx,dy)||1;
+  const off=Math.min(40,dist*.18);const mx=(a.x+b.x)/2-dy/dist*off,my=(a.y+b.y)/2+dx/dist*off;
+  return`M${a.x},${a.y}Q${mx},${my} ${b.x},${b.y}`}
+const pad=mobile?24:40;
+function tick(){
+  nodes.forEach(d=>{d.x=Math.max(pad,Math.min(W-pad,d.x));d.y=Math.max(pad,Math.min(H-pad-FS,d.y))});
+  spokes.attr("x1",d=>d.source.x).attr("y1",d=>d.source.y).attr("x2",d=>d.target.x).attr("y2",d=>d.target.y);
+  tieSel.attr("d",tiePath);
+  nodeSel.attr("transform",d=>`translate(${d.x},${d.y})`);
+  centerSel.attr("transform",`translate(${me.x},${me.y})`);
+}
+sim.on("tick",tick);tick();
+
+// drag (keeps the old feel: pull anyone around, they spring back into place)
+let dragging=false;
+nodeSel.call(d3.drag()
+  .on("start",(e,d)=>{dragging=true;if(!e.active)sim.alphaTarget(.25).restart();d.fx=d.x;d.fy=d.y})
+  .on("drag",(e,d)=>{d.fx=e.x;d.fy=e.y})
+  .on("end",(e,d)=>{dragging=false;if(!e.active)sim.alphaTarget(0);d.fx=null;d.fy=null}));
+centerSel.style("cursor","grab").call(d3.drag()
+  .on("start",e=>{if(!e.active)sim.alphaTarget(.25).restart()})
+  .on("drag",e=>{me.fx=e.x;me.fy=e.y})
+  .on("end",e=>{if(!e.active)sim.alphaTarget(0)}));
+
+addEventListener("resize",()=>{const ow=W,oh=H;measure();me.fx+=(W-ow)/2;me.fy+=(H-oh)/2;
+  sim.force("x",d3.forceX(W/2).strength(.03)).force("y",d3.forceY(H/2).strength(.03)).alpha(.3).restart()});
+
+// ===== interaction =====
+let pinned=null,activeTheme=null;
+const panel=document.getElementById("panel");
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function showIntro(){
+  const nPapers=P.filter(mine).length;
+  panel.innerHTML=`<p class="p-intro">Research is a team sport. These are the people who have made my papers better, and in most cases, my life better too.</p>
+  <div class="stats"><div class="stat"><b>${nodes.length}</b><span>coauthors</span></div><div class="stat"><b>${nPapers}</b><span>projects</span></div></div>
+  <p class="hint">Hover over a name to see our papers, or click to keep it open. Drag anyone around. Dashed lines are papers my coauthors wrote without me. Pick a research area below the graph to see who works on it.</p>`;
+}
+function showPerson(d){
+  panel.innerHTML=`<div class="p-name">${esc(d.first)} ${esc(d.last)}</div><div class="p-inst">${esc(d.inst)}</div>
+  ${d.quote?`<p class="p-quote">“${esc(d.quote)}”</p>`:""}
+  ${d.url?`<a class="p-site" href="${esc(d.url)}" target="_blank" rel="noopener">Visit ${esc(d.first)}’s website</a>`:""}
+  <div class="p-h">${d.papers.length===1?"Our paper":`Our ${d.papers.length} papers`}</div>
+  <ul class="papers">${d.papers.map(p=>{const others=p.a.filter(x=>x!==ME&&x!==d.id).map(x=>A[x]?`${A[x].f} ${A[x].l}`:x);
+    return`<li style="--c:${TH[p.th]}"><div class="t">${esc(p.t)}</div><div class="j">${esc(p.j)}</div>${others.length?`<div class="w">with ${esc(others.join(", "))}</div>`:""}</li>`}).join("")}</ul>
+  ${d.others.length?`<div class="p-h">Other coauthor links</div><ul class="papers">${d.others.map(p=>{const w=[...p.a.filter(x=>x!==d.id).map(x=>A[x]?`${A[x].f} ${A[x].l}`:x),...(p.ext||[])];
+    return`<li style="--c:${OTHER}"><div class="t">${p.url?`<a class="p-link" href="${esc(p.url)}" target="_blank" rel="noopener">${esc(titleOf(p))}</a>`:esc(titleOf(p))}</div>${p.j?`<div class="j">${esc(p.j)}</div>`:""}<div class="w">with ${esc(w.join(", "))}</div></li>`}).join("")}</ul>`:""}`;
+}
+function highlight(d){
+  const nb=new Set([d.id]);ties.forEach(t=>{if(t.a===d.id)nb.add(t.b);if(t.b===d.id)nb.add(t.a)});
+  nodeSel.classed("faded",x=>!nb.has(x.id)).classed("on",x=>x.id===d.id);
+  spokes.attr("stroke-opacity",x=>x.target.id===d.id?.75:nb.has(x.target.id)?.15:.05);
+  tieSel.attr("stroke-opacity",t=>(t.a===d.id||t.b===d.id)?.9:.04);
+}
+function highlightTheme(th){
+  const has=x=>x.themes.includes(th);
+  nodeSel.classed("faded",x=>!has(x)).classed("on",false);
+  spokes.attr("stroke-opacity",x=>has(x.target)?.5:.04);
+  tieSel.attr("stroke-opacity",t=>t.papers.some(p=>mine(p)&&p.th===th)?.9:.03);
+}
+function reset(){
+  nodeSel.classed("faded",false).classed("on",false);
+  spokes.attr("stroke-opacity",.22);tieSel.attr("stroke-opacity",.5);
+}
+function restore(){
+  if(pinned){highlight(pinned);showPerson(pinned)}
+  else if(activeTheme){highlightTheme(activeTheme);showIntro()}
+  else{reset();showIntro()}
+}
+nodeSel.on("mouseenter",(e,d)=>{highlight(d);showPerson(d)})
+  .on("mouseleave",()=>{if(!dragging)restore()})
+  .on("click",(e,d)=>{e.stopPropagation();pinned=pinned===d?null:d;setTheme(null,false);restore();
+    if(pinned&&innerWidth<=900)panel.scrollIntoView({behavior:reduce?"auto":"smooth",block:"start"})})
+  .on("keydown",(e,d)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pinned=pinned===d?null:d;setTheme(null,false);restore()}})
+  .on("focus",(e,d)=>{highlight(d);showPerson(d)}).on("blur",restore);
+svg.on("click",e=>{if(e.target===svg.node()){pinned=null;restore()}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){pinned=null;setTheme(null)}});
+
+// theme filters
+const themesEl=document.getElementById("themes");
+Object.entries(TH).forEach(([name,c])=>{const b=document.createElement("button");b.className="theme";b.setAttribute("aria-pressed","false");
+  b.innerHTML=`<i style="background:${c}"></i>${name}`;b.onclick=()=>setTheme(activeTheme===name?null:name);themesEl.appendChild(b)});
+function setTheme(th,apply=true){activeTheme=th;if(th)pinned=null;
+  [...themesEl.children].forEach(b=>b.setAttribute("aria-pressed",String(b.textContent===th)));
+  themesEl.classList.toggle("dim",!!th);if(apply)restore()}
+
+showIntro();
 </script>
 </body>
 </html>
